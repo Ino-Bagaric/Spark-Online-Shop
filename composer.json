@@ -1,0 +1,16 @@
+{
+    "name": "ino/spark-online-shop",
+    "description": "Spark Online Shop Test Project",
+    "authors": [
+        {
+            "name": "Ino-Bagaric",
+            "email": "ino.bagaric.1@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.0"
+    },
+    "autoload": {
+        "psr-4": { "": "classes/" }
+    }
+}
