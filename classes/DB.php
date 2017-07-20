@@ -48,7 +48,7 @@ class DB
 		self::$connection->exec($query); 
 
 		// Default user
-		$query = "INSERT OR IGNORE INTO Users (`id`, `username`, `name`, `lastname`, `password`, `email`, `permission`, `money`) VALUES ('1', 'admin', 'Administrator', '', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'admin@host.com', 3, 9999)";
+		$query = "INSERT OR IGNORE INTO Users (`id`, `username`, `name`, `lastname`, `password`, `email`, `permission`, `money`) VALUES ('1', 'admin', 'Administrator', '', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'admin@host.com', 2, 9999)";
 		self::$connection->exec($query);
 
 		// Permissions
@@ -75,7 +75,7 @@ class DB
 		$query .= '`stock` INTEGER)';
 		self::$connection->exec($query); 
 
-		// Books -> Owners
+		// Products -> Owners
 		$query = 'CREATE TABLE IF NOT EXISTS ProductOwners ';
 		$query .= '(`product_id` INTEGER, ';
 		$query .= '`user_id` INTEGER)';
