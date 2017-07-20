@@ -1,0 +1,42 @@
+/*
+ *
+ * TOP Level
+ *
+ */
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #384047;
+	background-color: #dedede;
+	font-family: 'Nunito', sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+.center {
+	top: 50%;
+	left: 50%;
+	position: relative;
+	transform: translate(-50%, -50%);
+}
+
+.wrapper {
+	width: 980px;
+	margin: 0 auto;
+}
+
+.clearfix:after {
+	content: "";
+	clear: both;
+	display: table;
+}
