@@ -2,7 +2,8 @@
 Online Shop project for Spark
 
 *TODO List*
-- [ ] **Database (SQLite)**
+- [x] **Database (SQLite)**
+- [x] **Composer**
 - [ ] **API**
   - [ ] Implement JWT
   - [ ] Get all the items
