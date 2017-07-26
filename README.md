@@ -5,8 +5,8 @@ Online Shop project for Spark
 - [x] **Database (SQLite)**
 - [x] **Composer**
 - [ ] **API**
-  - [ ] Implement JWT
-  - [ ] Get all the items
+  - [x] Implement JWT
+  - [ ] Get all items
   - [ ] Putting the item in the cart
   - [ ] Purchase
   - [ ] Cancellation of purchase
