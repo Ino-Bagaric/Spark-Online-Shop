@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+const PERMISSION_USER = 1;
+const PERMISSION_ADMINISTRATOR = 2;
+
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 // Page title

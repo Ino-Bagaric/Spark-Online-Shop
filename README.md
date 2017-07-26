@@ -18,5 +18,5 @@ Online Shop project for Spark
 - [ ] **Front-End**
    - [ ] HTML
    - [ ] CSS
-- [ ] **Register**
-- [ ] **Login**
+- [x] **Register**
+- [x] **Login**
