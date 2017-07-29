@@ -40,3 +40,41 @@ a {
 	clear: both;
 	display: table;
 }
+
+.nav {
+	height: 50px;
+	line-height: 50px;
+	background: #22242d;
+}
+
+.nav a {
+	color: #fff;
+	padding-left: 10px;
+}
+
+.alert {
+	color: #fff;
+	border-radius: 4px;
+	padding: 17px;
+	width: 500px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.alert.info {
+	background-color: #3199dc;
+}
+
+.alert.warning {
+	background-color: #f39d09;
+}
+
+.alert.error {
+	background-color: #e84b3a;
+}
+
+.alert.success {
+	background-color: #11bd9d;
+}
+
+

@@ -6,11 +6,11 @@ Online Shop project for Spark
 - [x] **Composer**
 - [ ] **API**
   - [x] Implement JWT
-  - [ ] Get all items
-  - [ ] Putting the item in the cart
+  - [x] Get all items
+  - [x] Putting the item in the cart
   - [ ] Purchase
   - [ ] Cancellation of purchase
-  - [ ] Get my last purchase
+  - [x] Get my last purchase
 - [ ] **Managment**
    - [ ] Add product
    - [ ] Remove product

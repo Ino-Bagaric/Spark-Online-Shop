@@ -166,7 +166,7 @@ class User
 			} else {
 				$stmt->bindParam(6, $userid, PDO::PARAM_INT);
 			}
-			
+
 			$stmt->execute();
 		} catch (Exception $e) {
 			return false;
@@ -202,5 +202,22 @@ class User
 	public function isLoggedIn()
 	{
 		return $this->isLoggedIn;
+	}
+
+	public function generateToken()
+	{
+		$data = array();
+
+		$issuedAt = time();
+		$expire = time() + 60;
+
+		$token = [
+			'iat' => $issuedAt,
+			'jti' => 'SNSNYR3Mzty3yT5A4OqbL1QW2RlQxsodOCBBwiZNIYBPrbo58lkVPv2Aqh9O16cg',
+			'exp' => $expire,
+			'user' => $this->getUserId()
+		];
+
+		return Firebase\JWT\JWT::encode($token, 'SNSNYR3Mzty3yT5A4OqbL1QW2RlQxsodOCBBwiZNIYBPrbo58lkVPv2Aqh9O16cg');
 	}
 }
