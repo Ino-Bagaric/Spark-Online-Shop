@@ -1,6 +1,8 @@
 # Spark-Online-Shop
 Online Shop project for Spark
 
+This is an example of usage this API, with register / login system
+
 *TODO List*
 - [x] **Database (SQLite)**
 - [x] **Composer**

@@ -81,7 +81,7 @@ class DB
 		$query .= '`user_id` INTEGER)';
 		self::$connection->exec($query); 
 
-		// Products -> Owners
+		// Cart
 		$query = 'CREATE TABLE IF NOT EXISTS Cart ';
 		$query .= '(`product_id` INTEGER, ';
 		$query .= '`user_id` INTEGER)';
