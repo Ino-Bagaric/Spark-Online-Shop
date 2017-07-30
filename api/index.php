@@ -52,9 +52,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-	$_DELETE = array();
+	global $user, $db;
+
+	if (!checkAuth()) {
+		echo json_encode([]);
+		return;
+	}
+
 	parse_str(file_get_contents('php://input'), $_DELETE);
-	echo json_encode(array('user' => 132, 'test' => 'delete'));
+
+	$data = array();
+	$item = $_DELETE['item'];
+	$page = $_DELETE['page'];
+
+	if ($page === 'cart') {
+		try {
+			$stmt = $db->prepare("DELETE FROM Cart WHERE product_id = ? AND user_id = ?");
+			$stmt->bindParam(1, $item, PDO::PARAM_INT);
+			$stmt->bindParam(2, $user, PDO::PARAM_INT);
+			$stmt->execute();
+			$data[] = true;
+		} catch (Exception $e) {
+			$data[] = false;
+		}
+	} else if ($page === 'history') {
+		try {
+			$stmt = $db->prepare("DELETE FROM ProductOwners WHERE product_id = ? AND user_id = ?");
+			$stmt->bindParam(1, $item, PDO::PARAM_INT);
+			$stmt->bindParam(2, $user, PDO::PARAM_INT);
+			$stmt->execute();
+			$data[] = true;
+		} catch (Exception $e) {
+			$data[] = false;
+		}
+	} else {
+		$data[] = false;
+	}
+	echo json_encode($data);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -87,16 +121,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		}
 	} else if ($page === 'history') {
 		try {
-			$results = $db->prepare("SELECT product_id FROM ProductOwners WHERE user_id = ?");
+			$results = $db->prepare("SELECT * FROM ProductOwners WHERE user_id = ?");
 			$results->bindParam(1, $user, PDO::PARAM_INT);
 			$results->execute();
-			$data = $results->fetchAll(PDO::FETCH_COLUMN);
+			$data = $results->fetchAll(PDO::FETCH_ASSOC);
 		} catch (Exception $e) {
 			$data[] = $e->getMessage();
 		}
 	} else if ($page === 'cart') {
 		try {
-			$results = $db->prepare("SELECT product_id FROM Cart WHERE user_id = ?");
+			$results = $db->prepare("SELECT * FROM Cart WHERE user_id = ?");
 			$results->bindParam(1, $user, PDO::PARAM_INT);
 			$results->execute();
 			$data = $results->fetchAll(PDO::FETCH_COLUMN);
@@ -124,13 +158,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$item = $_POST['item'];
 	$page = $_POST['page'];
 
-	try {
-		$stmt = $db->prepare("INSERT INTO Cart (product_id, user_id) VALUES (?, ?)");
-		$stmt->bindValue(1, $item, PDO::PARAM_INT);
-		$stmt->bindValue(2, $user, PDO::PARAM_INT);
-		$stmt->execute();
-		$data[] = true;
-	} catch (Exception $e) {
+	if ($page === 'cart') {
+		try {
+			$stmt = $db->prepare("INSERT INTO Cart (product_id, user_id) VALUES (?, ?)");
+			$stmt->bindValue(1, $item, PDO::PARAM_INT);
+			$stmt->bindValue(2, $user, PDO::PARAM_INT);
+			$stmt->execute();
+			$data[] = true;
+		} catch (Exception $e) {
+			$data[] = false;
+		}
+	} else if ($page === 'history') {
+		try {
+			$stmt = $db->prepare("INSERT INTO ProductOwners (product_id, user_id, time) VALUES (?, ?, ?)");
+			$stmt->bindValue(1, $item, PDO::PARAM_INT);
+			$stmt->bindValue(2, $user, PDO::PARAM_INT);
+			$stmt->bindValue(3, time() + 600, PDO::PARAM_INT);
+			$stmt->execute();
+			$data[] = true;
+		} catch (Exception $e) {
+			$data[] = false;
+		}
+	} else {
 		$data[] = false;
 	}
 	echo json_encode($data);

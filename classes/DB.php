@@ -78,7 +78,8 @@ class DB
 		// Products -> Owners
 		$query = 'CREATE TABLE IF NOT EXISTS ProductOwners ';
 		$query .= '(`product_id` INTEGER, ';
-		$query .= '`user_id` INTEGER)';
+		$query .= '`user_id` INTEGER, ';
+		$query .= '`time` INTEGER)';
 		self::$connection->exec($query); 
 
 		// Cart

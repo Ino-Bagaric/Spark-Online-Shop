@@ -9,6 +9,14 @@ if (!$user->isLoggedIn()) {
 	Redirect::to('index.php');
 }
 
+?>
+<body>
+	<div class="wrapper">
+		<p>Hello <?php echo $data['name'] . ' | Money: ' . $data['money']; ?></p>
+	</div>
+</body>
+
+<?php
 $token = $user->generateToken();
 $api = new API($token);
 
@@ -44,12 +52,3 @@ if (isset($_GET['option'])) {
 		}
 	}
 }
-
-
-?>
-
-<body>
-	<div class="wrapper">
-		<p>Hello <?php echo $data['name'] . ' | Money: ' . $data['money']; ?></p>
-	</div>
-</body>

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ *  getProduct($id = -1, $page = 'shop')
+ *  getProductData($id)
+ *  purchase($id)
+ *  cancelPurchase($id)
+ *  addToCart($id, $page = 'cart') 
+ *
+ */
+
 class API 
 {
 	private $token;
@@ -44,6 +54,11 @@ class API
 		$products = json_decode($api_response_header, true);
 		
 		if (!$products) return [];
+
+		if ($page === 'history') {
+			return $products;
+		}
+
 		if ($id != -1) return $this->getProductData($products);
 
 		foreach ($products as $product) {
@@ -53,7 +68,7 @@ class API
 		return $data;
 	}
 
-	private function getProductData($id)
+	public function getProductData($id)
 	{
 		$data = array();
 
@@ -98,17 +113,17 @@ class API
 
 		$data = json_decode($api_response_header, true);
 		
-		return (bool)$data[0];
+		return !!$data[0];
 	}
 
-	public function purchase()
+	public function purchase($id)
 	{
-		// TODO
+		return !!$this->addToHistory($id);
 	}
 
-	public function cancelPurchase()
+	public function cancelPurchase($id)
 	{
-		// TODO
+		return !!$this->removeFrom($id, 'history');
 	}
 
 	public function addToCart($id, $page = 'cart') 
@@ -154,7 +169,75 @@ class API
 
 		$this->updateProduct($id, $stock - 1);
 		
-		return (bool)$data[0];
+		return !!$data[0];
+	}
+
+	private function addToHistory($id)
+	{
+		$productData = $this->getProductData($id);
+
+		$api_request_parameters = array(
+			'item' => $id,
+			'page' => 'history'
+		);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($api_request_parameters));
+		 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Accept: application/json',
+			'Authorization: ' . $this->token
+		));
+		curl_setopt($ch, CURLOPT_URL, $this->api_request_url);
+
+		$api_response = curl_exec($ch);
+		$api_response_info = curl_getinfo($ch);
+		
+		curl_close($ch);
+		
+		$api_response_header = trim(substr($api_response, 0, $api_response_info['header_size']));
+		$api_response_body = substr($api_response, $api_response_info['header_size']);
+
+		$data = json_decode($api_response_header, true);
+
+		$this->removeFrom($id, 'cart');
+		
+		return !!$data[0];
+	}
+
+	private function removeFrom($id, $page = 'cart')
+	{
+		$api_request_parameters = array(
+			'item' => $id,
+			'page' => $page
+		);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($api_request_parameters));
+		 
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Accept: application/json',
+			'Authorization: ' . $this->token
+		));
+		curl_setopt($ch, CURLOPT_URL, $this->api_request_url);
+
+		$api_response = curl_exec($ch);
+		$api_response_info = curl_getinfo($ch);
+		
+		curl_close($ch);
+		
+		$api_response_header = trim(substr($api_response, 0, $api_response_info['header_size']));
+		$api_response_body = substr($api_response, $api_response_info['header_size']);
+
+		$data = json_decode($api_response_header, true);
+		
+		return !!$data[0];
 	}
 }
 

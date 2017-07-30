@@ -21,14 +21,14 @@ $user = new User();
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 
+<?php if ($user->isLoggedIn()) { ?>
 <div class="nav">
 	<a href="?page=shop">Shop</a>
 	<a href="?page=history">History</a>
-	<?php if ($user->isLoggedIn()) { ?>
-		<a href="?page=cart">Cart (5)</a>
-	<?php } ?>
-	<a href="#">test</a>
+	<a href="?page=cart">Cart</a>
+	<a href="logout.php">Logout</a>
 </div>
+<?php } ?>
 
 </html>
 
